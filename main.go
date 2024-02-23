@@ -4,8 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/carloseduribeiro/dependency-injection-with-google-wire/product"
-
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -16,8 +14,10 @@ func main() {
 	}
 	defer db.Close()
 
-	repository := product.NewProductRepository(db)
-	useCase := product.NewProductUseCase(repository)
+	//repository := product.NewProductRepository(db)
+	//useCase := product.NewProductUseCase(repository)
+
+	useCase := NewUseCase(db)
 
 	p, err := useCase.Execute(1)
 	if err != nil {
