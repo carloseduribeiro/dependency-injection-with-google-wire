@@ -9,6 +9,7 @@ package main
 import (
 	"database/sql"
 	"github.com/carloseduribeiro/dependency-injection-with-google-wire/product"
+	"github.com/google/wire"
 )
 
 import (
@@ -18,7 +19,11 @@ import (
 // Injectors from wire.go:
 
 func NewUseCase(db *sql.DB) *product.UseCase {
-	repository := product.NewProductRepository(db)
-	useCase := product.NewProductUseCase(repository)
+	productRepository := product.NewProductRepository(db)
+	useCase := product.NewProductUseCase(productRepository)
 	return useCase
 }
+
+// wire.go:
+
+var setRepositoryDependency = wire.NewSet(product.NewProductRepository, wire.Bind(new(product.RepositoryInterface), new(*product.ProductRepository)))
